@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private final RoleDaoImpl roleDao;
-    private final UserDaoImpl userDao;
+    private final RoleDao roleDao;
+    private final UserDao userDao;
 
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(8);

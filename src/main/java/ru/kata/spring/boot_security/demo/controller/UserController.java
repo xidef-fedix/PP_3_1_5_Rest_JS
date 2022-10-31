@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @Controller
 public class UserController {
-    private final UserDaoImpl userDao;
+    private final UserDao userDao;
 
     public UserController(UserDaoImpl userDao) {
         this.userDao = userDao;
