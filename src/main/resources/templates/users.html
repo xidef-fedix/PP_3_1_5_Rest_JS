@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h2>Все Юзеры</h2>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Логин</th>
+        <th>Пароль</th>
+
+
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="person : ${users}">
+        <td th:text="${person.getName()}"></td>
+        <td th:text="${person.getSurname()}"></td>
+        <td th:text="${person.getUsername()}"></td>
+        <td th:text="${person.getPassword()}"></td>
+        <td>
+            <form th:method="GET" th:action="@{admin/edit/{id}(id=${person.getId()})}">
+                <input type="submit" value="Изменить"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{admin/delete/{id}(id=${person.getId()})}">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+<br>
+<input type="button" value="Добавить нового Юзера" onclick="window.location.href = 'admin/new'"/>
+
+<br>
+<br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти"/>
+</form>
+</body>
+</html>

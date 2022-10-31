@@ -4,8 +4,13 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
+<h1>Стартовая страница</h1>
+<h1>Ты можешь войти в свой аккаунт</h1>
+<br>
+<br>
+<form th:action="@{/users}" method="post">
+    <input type="submit" value="Войти"/>
+</form>
 
 </body>
 </html>
