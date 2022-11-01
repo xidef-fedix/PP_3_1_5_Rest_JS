@@ -22,7 +22,15 @@
     <label for="password">Пароль: </label>
     <input type="text" th:field="*{password}" id="password"/>
     <br/>
-
+    <label>Roles
+        <input type="checkbox" name="listRoles"
+               th:each="rol : ${listRoles}"
+               th:text="${rol.role}"
+               th:value="${rol.role}"
+               th:field="*{roles}"
+        />
+    </label>
+    <br>
     <input type="submit" value="Создать!"/>
 </form>
 <br>

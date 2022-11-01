@@ -21,6 +21,19 @@
     <label for="password">Пароль: </label>
     <input type="text" th:field="*{password}" id="password"/>
     <br/>
+    <th:block th:each="msg : ${user.getRoles()}">
+        <li th:text="${msg.role}"></li>
+    </th:block>
+    <p>
+        <label>Roles
+            <input type="checkbox" name="listRoles"
+                   th:each="rol : ${listRoles}"
+                   th:text="${rol.role}"
+                   th:value="${rol.role}"
+                   th:field="*{roles}"
+            />
+        </label>
+    </p>
     <input type="submit" value="Обновить!"/>
 </form>
 <br>
