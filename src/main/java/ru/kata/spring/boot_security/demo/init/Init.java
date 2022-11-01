@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -13,8 +13,11 @@ import java.util.List;
 @Component
 public class Init {
 
+    private final UserService userService;
     @Autowired
-    private UserServiceImpl userService;
+    public Init(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostConstruct
     public void init() {
