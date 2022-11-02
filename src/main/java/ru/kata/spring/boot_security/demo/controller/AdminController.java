@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,36 +29,33 @@ public class AdminController {
     }
 
     @GetMapping
-    public String users(Model model) {
+    public String users(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("users", userService.getListUsers());
+        model.addAttribute("userRole", roleService.getListRoles());
+        model.addAttribute("user", user);
         return "users";
     }
 
     @GetMapping(value = "/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("listRoles", roleService.getListRoles());
+    public String newUser(User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("userRole", roleService.getListRoles());
         return "new";
     }
 
-    @PostMapping()
-    public String createUser(@ModelAttribute("user") User user) {
-        List<String> listString = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+    @PostMapping("/add")
+    public String createUser(@ModelAttribute("user") User user, @RequestParam("userRole") String roles) {
+        List<String> listString = Arrays.stream(new String[]{roles}).toList();
         List<Role> listRole = userService.getListByRole(listString);
         user.setRoles(listRole);
         userService.add(user);
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("listRoles", userService.getListRoles());
-        return "edit";
-    }
 
-    @PostMapping("/edit/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        List<String> listString = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+    @PutMapping("/edit")
+    public String updateUser(User user, @RequestParam("userRole") String[] roles) {
+        List<String> listString = Arrays.stream(roles).toList();
         List<Role> listRole = userService.getListByRole(listString);
         user.setRoles(listRole);
         userService.update(user);
